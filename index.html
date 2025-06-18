@@ -1,11 +1,160 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Redirecting...</title>
-    <meta http-equiv="refresh" content="0; URL=todolist.html">
-    <link rel="canonical" href="todolist.html">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todo List App</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background-color: #f5f5f5;
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 600px;
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            color: #ff6b00;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .input-section {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        #todo-input {
+            flex: 1;
+            padding: 10px;
+            border: 2px solid #ff6b00;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        .add-btn {
+            background: #ff6b00;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .todo-list {
+            list-style: none;
+        }
+
+        .todo-item {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            background: white;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .todo-item.completed {
+            background: #f9f9f9;
+        }
+
+        .todo-item.completed span {
+            text-decoration: line-through;
+            color: #888;
+        }
+
+        .todo-text {
+            flex: 1;
+            margin: 0 10px;
+        }
+
+        .delete-btn {
+            color: #ff6b00;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .checkbox {
+            width: 20px;
+            height: 20px;
+            accent-color: #ff6b00;
+        }
+    </style>
 </head>
 <body>
-    <p>If you are not redirected automatically, follow this <a href="Todolist.html">link to my ToDo List</a>.</p>
+    <div class="container">
+        <h1><i class="fas fa-clipboard-list"></i> Todo List</h1>
+        <div class="input-section">
+            <input type="text" id="todo-input" placeholder="Add a new task...">
+            <button class="add-btn" onclick="addTodo()">
+                <i class="fas fa-plus"></i> Add
+            </button>
+        </div>
+        <ul class="todo-list" id="todo-list">
+            <!-- Todo items will be added here -->
+        </ul>
+    </div>
+
+    <script>
+        function addTodo() {
+            const input = document.getElementById('todo-input');
+            const text = input.value.trim();
+            
+            if (text !== '') {
+                const list = document.getElementById('todo-list');
+                const li = document.createElement('li');
+                li.className = 'todo-item';
+                
+                li.innerHTML = `
+                    <input type="checkbox" class="checkbox" onclick="toggleComplete(this)">
+                    <span class="todo-text">${text}</span>
+                    <button class="delete-btn" onclick="deleteTodo(this)">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                `;
+                
+                list.appendChild(li);
+                input.value = '';
+            }
+        }
+
+        function deleteTodo(button) {
+            button.parentElement.remove();
+        }
+
+        function toggleComplete(checkbox) {
+            const todoItem = checkbox.parentElement;
+            todoItem.classList.toggle('completed');
+        }
+
+        // Add todo when Enter key is pressed
+        document.getElementById('todo-input').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                addTodo();
+            }
+        });
+    </script>
 </body>
 </html>
